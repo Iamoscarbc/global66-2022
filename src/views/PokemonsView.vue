@@ -5,8 +5,22 @@
       :search="search"
       @change="changeSearch($event)"
     />
-    <TableList :pokemons="pokemonsComputed" class="max-w-xl" />
-    <FixedButtons>
+    <TableList
+      :pokemons="pokemonsComputed"
+      class="max-w-xl"
+      v-if="pokemonsComputed.length != 0"
+    />
+    <div v-else class="flex flex-col items-center">
+      <h2 class="text-4xl font-bold mb-2 mt-2">Uh-oh!</h2>
+      <p class="text-xl font-medium mb-6">You look lost on your journey!</p>
+      <TButton
+        class="w-40 h-11 flex justify-center items-center gap-2 bg-red-1"
+        @click="goBack()"
+      >
+        Go back home
+      </TButton>
+    </div>
+    <FixedButtons v-if="pokemonsComputed.length != 0">
       <TButton
         class="w-72 h-11 flex justify-center items-center gap-2"
         :class="filter == 'All' ? 'bg-red-1' : 'bg-gray-not-favorite'"
@@ -38,7 +52,7 @@ import TButton from "@/components/lib/TButton";
 import TSearcher from "@/components/lib/TSearcher";
 import TableList from "@/components/TableList/index";
 import FixedButtons from "@/components/FixedButtons";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -65,12 +79,18 @@ export default {
   },
   methods: {
     ...mapActions("pokemon", ["getPokemons"]),
+    ...mapMutations("pokemon", ["SET_LOADING_POKEMONS"]),
     changeSearch(event) {
       this.search = event;
     },
+    goBack() {
+      this.$router.push("/");
+    },
   },
-  created() {
-    this.getPokemons();
+  async created() {
+    this.SET_LOADING_POKEMONS(true);
+    await this.getPokemons();
+    this.SET_LOADING_POKEMONS(false);
   },
 };
 </script>

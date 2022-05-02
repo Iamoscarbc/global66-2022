@@ -4,21 +4,40 @@
       v-for="(pokemon, index) in pokemons"
       :key="index"
       :pokemon="pokemon"
+      @openModal="openModal($event)"
     />
+    <ModalPokemon :pokemon="pokemonSelected" v-if="showModal" />
   </div>
 </template>
 
 <script>
 import ListItem from "./ListItem.vue";
+import ModalPokemon from "@/components/ModalPokemon.vue";
+import PokemonService from "@/api/services/pokemon.service";
 export default {
+  components: {
+    ListItem,
+    ModalPokemon,
+  },
   props: {
     pokemons: {
       type: Array,
       default: () => [],
     },
   },
-  components: {
-    ListItem,
+  data() {
+    return {
+      pokemonSelected: null,
+      showModal: false,
+    };
+  },
+  methods: {
+    async openModal(pokemon) {
+      let r = await PokemonService.getPokemonByName(pokemon.name);
+      r.isFavorite = pokemon.isFavorite;
+      this.pokemonSelected = r;
+      this.showModal = true;
+    },
   },
 };
 </script>

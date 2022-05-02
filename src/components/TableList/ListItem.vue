@@ -47,7 +47,7 @@ export default {
       });
     },
     openModal(pokemon) {
-      console.log("open modal", pokemon);
+      this.$emit("openModal", pokemon);
     },
   },
 };
