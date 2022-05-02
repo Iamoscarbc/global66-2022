@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-col gap-3 overflow-y-auto">
+  <div class="w-full flex flex-col gap-3 overflow-y-auto h-full mb-24">
     <ListItem
       v-for="(pokemon, index) in pokemons"
       :key="index"

@@ -7,7 +7,8 @@ module.exports = {
         "black-2": "#5E5E5E",
         "red-1": "#F22539",
         "app": "#F5F5F5",
-        "yellow-favorite": '#ECA539'
+        "yellow-favorite": "#ECA539",
+        "gray-not-favorite": "#BFBFBF"
       },
       fontFamily: {
         lato: ['Lato', 'sans-serif'],

@@ -1,6 +1,7 @@
 <template>
   <button
-    class="bg-red-1 text-white px-5 py-3 rounded-full text-lg font-bold"
+    type="button"
+    class="text-white px-5 py-3 rounded-full text-lg font-bold select-none"
     @click="$emit('click', $event)"
   >
     <slot />
