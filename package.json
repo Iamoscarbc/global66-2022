@@ -2,6 +2,7 @@
   "name": "global66",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://iamoscarbc.github.io",
   "scripts": {
     "dev": "vue-cli-service serve --mode dev",
     "format": "prettier --ignore-path .gitignore --write \"*/.+(js|vue)\"",
@@ -9,7 +10,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --mode dev",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -19,6 +22,8 @@
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "gh-pages": "^3.2.3",
+    "save-dev": "^0.0.1-security",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
