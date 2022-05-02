@@ -1,6 +1,10 @@
 <template>
   <div class="flex flex-col items-center h-full w-full">
-    <TSearcher class="mt-7 mb-10 max-w-xl" />
+    <TSearcher
+      class="mt-7 mb-10 max-w-xl"
+      :search="search"
+      @change="changeSearch($event)"
+    />
     <TableList :pokemons="pokemonsComputed" class="max-w-xl" />
     <FixedButtons>
       <TButton
@@ -39,6 +43,7 @@ export default {
   data() {
     return {
       filter: "All",
+      search: "",
     };
   },
   components: {
@@ -50,13 +55,19 @@ export default {
   computed: {
     ...mapState("pokemon", ["pokemons"]),
     pokemonsComputed() {
+      let r = this.pokemons;
       if (this.filter == "Favorites")
-        return this.pokemons.filter((x) => x.isFavorite);
-      return this.pokemons;
+        r = this.pokemons.filter((x) => x.isFavorite);
+      return r.filter(
+        (x) => x.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      );
     },
   },
   methods: {
     ...mapActions("pokemon", ["getPokemons"]),
+    changeSearch(event) {
+      this.search = event;
+    },
   },
   created() {
     this.getPokemons();
