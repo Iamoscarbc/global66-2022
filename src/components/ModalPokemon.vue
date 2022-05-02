@@ -2,14 +2,17 @@
   <div class="modal-overlay">
     <div class="modal">
       <img
-        alt="Vue logo"
-        :src="require('../assets/images/background-pokemon.svg')"
+        :src="require('../assets/images/background-pokemon-mobile.svg')"
+        v-if="isMobile"
       />
+      <img :src="require('../assets/images/background-pokemon.svg')" v-else />
       <img
-        :src="imgPokemon"
-        width="180"
-        style="position: absolute; top: 20px; right: 0; left: 190px"
+        :src="require('../assets/images/close.svg')"
+        width="26"
+        class="close-icon"
+        @click="closeModal()"
       />
+      <img :src="imgPokemon" width="180" class="img-pokemon" />
       <div class="flex flex-col items-start py-5 px-7 w-full">
         <div class="characteristic">
           <span>Name:</span>
@@ -28,7 +31,10 @@
           <span class="capitalize">{{ pokemonTypes }}</span>
         </div>
         <div class="flex flex-row justify-between mt-5 w-full">
-          <TButton class="w-52 h-11 flex justify-center items-center bg-red-1">
+          <TButton
+            class="w-52 h-11 flex justify-center items-center bg-red-1"
+            v-clipboard:copy="copyInfo"
+          >
             Share to my friends
           </TButton>
           <div
@@ -60,6 +66,11 @@ export default {
   components: {
     TButton,
   },
+  data() {
+    return {
+      isMobile: false,
+    };
+  },
   computed: {
     pokemonTypes() {
       return this.pokemon.types
@@ -71,6 +82,28 @@ export default {
     imgPokemon() {
       return this.pokemon.sprites.other["official-artwork"].front_default;
     },
+    copyInfo() {
+      if (typeof this.pokemon.name != "undefined") {
+        let copied =
+          "Name: " +
+          this.pokemon.name.charAt(0).toUpperCase() +
+          this.pokemon.name.slice(1);
+        copied += ", Weight: " + this.pokemon.weight;
+        copied += ", Height: " + this.pokemon.height;
+        copied += ", Types: " + this.pokemonTypes;
+        return copied;
+      } else {
+        return "";
+      }
+    },
+  },
+  methods: {
+    closeModal() {
+      this.$emit("closeModal");
+    },
+  },
+  created() {
+    this.isMobile = window.innerWidth <= 425 ? true : false;
   },
 };
 </script>
@@ -109,16 +142,31 @@ export default {
   border-radius: 5px;
   position: relative;
 }
-.close {
-  margin: 10% 0 0 16px;
-  cursor: pointer;
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.close-img {
-  width: 25px;
+.img-pokemon {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  left: 33%;
 }
 
-.check {
-  width: 150px;
+@media (max-width: 425px) {
+  .modal-overlay {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .modal {
+    margin-top: 35%;
+  }
+
+  .img-pokemon {
+    left: 25%;
+  }
 }
 </style>

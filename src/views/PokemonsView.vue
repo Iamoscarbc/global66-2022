@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center h-full w-full">
+  <div class="flex flex-col items-center h-full w-full responsive-padding">
     <TSearcher
       class="mt-7 mb-10 max-w-xl"
       :search="search"
@@ -94,3 +94,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.responsive-padding {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+</style>

@@ -6,7 +6,11 @@
       :pokemon="pokemon"
       @openModal="openModal($event)"
     />
-    <ModalPokemon :pokemon="pokemonSelected" v-if="showModal" />
+    <ModalPokemon
+      :pokemon="pokemonSelected"
+      v-if="showModal"
+      @closeModal="closeModal"
+    />
   </div>
 </template>
 
@@ -37,6 +41,9 @@ export default {
       r.isFavorite = pokemon.isFavorite;
       this.pokemonSelected = r;
       this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
     },
   },
 };
