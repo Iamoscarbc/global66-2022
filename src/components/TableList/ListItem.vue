@@ -13,12 +13,14 @@
         :class="
           pokemon.isFavorite ? 'text-yellow-favorite' : 'text-gray-not-favorite'
         "
+        @click="changeFavorite(pokemon)"
       ></font-awesome-icon>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     pokemon: {
@@ -27,6 +29,20 @@ export default {
         name: "",
         isFavorite: false,
       }),
+    },
+  },
+  computed: {
+    ...mapState("pokemon", ["pokemons"]),
+  },
+  methods: {
+    changeFavorite(pokemon) {
+      let r = this.pokemons;
+      r.map((x) => {
+        if (x.name == pokemon.name) {
+          x.isFavorite = !x.isFavorite;
+        }
+        return x;
+      });
     },
   },
 };
